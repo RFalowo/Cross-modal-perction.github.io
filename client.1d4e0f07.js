@@ -75937,7 +75937,7 @@ var SoundControls = function SoundControls() {
 };
 
 var soundcontrols = new SoundControls();
-var socket = new StayAliveSocket_1.StayAliveSocket("ws://localhost:8080"); ///const socket = new WebSocket("ws://localhost:8080");
+var socket = new StayAliveSocket_1.StayAliveSocket("ws://lit-bayou-92427.herokuapp.com/ "); ///const socket = new WebSocket("ws://localhost:8080");
 
 socket.onOpen = function (event) {
   console.log("open");
@@ -76401,6 +76401,8 @@ prizedrawNextButton.forEach(function (button) {
     emailObj.Email = email;
     updateEmailDB(emailObj);
     closeModal(prizedraw);
+    localStorage.removeItem("trialConfiguration");
+    localStorage.removeItem("Player");
     openModal(extratrials); // TODO add server communication and database handling for user email
   });
 });
@@ -77437,7 +77439,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57473" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50233" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
