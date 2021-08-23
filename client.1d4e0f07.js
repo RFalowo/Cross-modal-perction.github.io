@@ -76136,6 +76136,7 @@ headphoneTestNextButton.forEach(function (button) {
 practise1NextButton.forEach(function (button) {
   button.addEventListener("click", function () {
     var practise1 = document.querySelector(".practise1");
+    listener.setMasterVolume(1);
     closeModal(practise1);
     startAudio();
     updateGUI("Sound");
@@ -76441,6 +76442,7 @@ function showResult(result) {
   } else if (usingHeadphones === true) {
     updateUserDB(userState);
     startAudio();
+    stopAudio();
     initGUI();
     updateGUI(config.firstModality); //openModal(practise1);
   }
@@ -77441,7 +77443,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53892" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59541" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
