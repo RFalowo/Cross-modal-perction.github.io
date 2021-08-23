@@ -75761,7 +75761,7 @@ process.umask = function () {
 };
 },{}],"node_modules/uniqid/index.js":[function(require,module,exports) {
 var process = require("process");
-/*
+/* 
 (The MIT License)
 Copyright (c) 2014-2021 Halász Ádám <adam@aimform.com>
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -75789,7 +75789,7 @@ if(typeof __webpack_require__ !== 'function'){
         }
     }
     address = mac ? parseInt(mac.replace(/\:|\D+/gi, '')).toString(36) : '' ;
-}
+} 
 
 //  Exports
 // ================================================
@@ -75937,7 +75937,7 @@ var SoundControls = function SoundControls() {
 };
 
 var soundcontrols = new SoundControls();
-var socket = new StayAliveSocket_1.StayAliveSocket("ws://localhost:8080"); ///const socket = new WebSocket("ws://localhost:8080");
+var socket = new StayAliveSocket_1.StayAliveSocket("wss://lit-bayou-92427.herokuapp.com/ "); ///const socket = new WebSocket("ws://localhost:8080");
 
 socket.onOpen = function (event) {
   console.log("open");
@@ -76401,6 +76401,8 @@ prizedrawNextButton.forEach(function (button) {
     emailObj.Email = email;
     updateEmailDB(emailObj);
     closeModal(prizedraw);
+    localStorage.removeItem("trialConfiguration");
+    localStorage.removeItem("Player");
     openModal(extratrials); // TODO add server communication and database handling for user email
   });
 });
@@ -76439,8 +76441,8 @@ function showResult(result) {
   } else {
     updateUserDB(userState);
     startAudio();
-    initGUI(); //openModal(practise1);
-    updateGUI(config.firstModality);
+    initGUI();
+    updateGUI(config.firstModality); //openModal(practise1);
   }
 } // websockets
 // update user functions
@@ -76577,6 +76579,7 @@ function initGUI() {
   });
   soundFolder.add(params, "Submit");
   soundFolder.open();
+  console.log("gui created");
 }
 
 function updateGUI(designerType) {
@@ -77438,7 +77441,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57473" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63150" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
