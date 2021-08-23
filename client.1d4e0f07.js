@@ -76441,7 +76441,8 @@ function showResult(result) {
   } else {
     updateUserDB(userState);
     startAudio();
-    initGUI(); //openModal(practise1);
+    initGUI();
+    updateGUI(config.firstModality); //openModal(practise1);
   }
 } // websockets
 // update user functions
@@ -76578,6 +76579,7 @@ function initGUI() {
   });
   soundFolder.add(params, "Submit");
   soundFolder.open();
+  console.log("gui created");
 }
 
 function updateGUI(designerType) {
@@ -77439,7 +77441,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53290" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54999" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
