@@ -62,7 +62,7 @@ const SoundControls = function () {
     this.release = releaseTime;
 };
 const soundcontrols = new SoundControls();
-const socket = new StayAliveSocket("ws://lit-bayou-92427.herokuapp.com/ ");
+const socket = new StayAliveSocket("wss://lit-bayou-92427.herokuapp.com/ ");
 ///const socket = new WebSocket("ws://localhost:8080");
 socket.onOpen = (event) => {
     console.log("open");
@@ -558,6 +558,7 @@ function showResult(result) {
         updateUserDB(userState);
         startAudio();
         initGUI();
+        updateGUI(config.firstModality);
         //openModal(practise1);
     }
 }
@@ -723,6 +724,7 @@ function initGUI() {
     });
     soundFolder.add(params, "Submit");
     soundFolder.open();
+    console.log("gui created");
 }
 function updateGUI(designerType) {
     if (designerType === "3D") {
