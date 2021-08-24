@@ -63,7 +63,7 @@ const SoundControls = function () {
 };
 const soundcontrols = new SoundControls();
 const socket = new StayAliveSocket("wss://lit-bayou-92427.herokuapp.com/ ");
-///const socket = new WebSocket("ws://localhost:8080");
+// const socket = new StayAliveSocket("ws://localhost:5000");
 socket.onOpen = (event) => {
     console.log("open");
     const message3 = {
@@ -255,11 +255,14 @@ headphoneTestNextButton.forEach((button) => {
 practise1NextButton.forEach((button) => {
     button.addEventListener("click", () => {
         const practise1 = document.querySelector(".practise1");
+        listener.setMasterVolume(1);
         closeModal(practise1);
         startAudio();
-        updateGUI("Sound");
         genRand3D();
         resetSound();
+        setTimeout(() => {
+            updateGUI("Sound");
+        }, 500);
         procedureStep = "trainingSound1";
     });
 });
@@ -554,9 +557,10 @@ function showResult(result) {
     if (usingHeadphones == false) {
         openModal(sorry);
     }
-    else {
+    else if (usingHeadphones === true) {
         updateUserDB(userState);
         startAudio();
+        stopAudio();
         initGUI();
         updateGUI(config.firstModality);
         //openModal(practise1);
@@ -637,23 +641,25 @@ function createGeometry() {
 function initGUI() {
     // Set up dat.GUI to control targets
     //const gui = new GUI;
-    var masterControl = formFolder
-        .add(soundcontrols, "master", 0.0, 1.0)
-        .onChange(function () {
-        listener.setMasterVolume(soundcontrols.master);
-    });
+    // var masterControl = formFolder
+    //   .add(soundcontrols, "master", 0.0, 1.0)
+    //   .onChange(function () {
+    //     listener.setMasterVolume(soundcontrols.master);
+    //   });
     var colourControl = formFolder
         .addColor(params, "color")
         .onChange(function () {
         mesh.material.color.set(params.color);
-    });
+    })
+        .listen();
     var SphericityControl = formFolder
         .add(params, "Spherify", 0, 1)
         .step(0.01)
         .onChange(function (value) {
         params.Spherify = value;
         mesh.morphTargetInfluences[0] = value;
-    });
+    })
+        .listen();
     var contortionControl = formFolder
         .add(params, "Twist", 0, 1)
         .step(0.01)
@@ -661,7 +667,8 @@ function initGUI() {
         .onChange(function (value) {
         params.Twist = value;
         mesh.morphTargetInfluences[1] = value;
-    });
+    })
+        .listen();
     // formFolder.add( params, 'Rand', 0, 1 ).step( 0.01 ).onChange( function ( value ) {
     //     mesh.morphTargetInfluences[ 2 ] = value;
     // } );
@@ -671,57 +678,65 @@ function initGUI() {
         params.length = value;
         mesh.scale.set(params.length, params.depth, 1);
     })
-        .name("Length");
+        .name("Length")
+        .listen();
     var depthControl = formFolder
         .add(params, "depth", 0.1, 1.5)
         .onChange(function (value) {
         params.depth = value;
         mesh.scale.set(params.length, params.depth, 1);
     })
-        .name("Depth");
+        .name("Depth")
+        .listen();
     var segmentControl = formFolder
         .add(params, "Segments", 1, 60)
         .step(1)
-        .onChange(generateGeometry);
+        .onChange(generateGeometry)
+        .listen();
     generateGeometry();
     formFolder.add(params, "Submit");
     formFolder.open();
-    var masterControl = soundFolder
-        .add(soundcontrols, "master", 0.0, 1.0)
-        .onChange(function () {
-        listener.setMasterVolume(soundcontrols.master);
-    });
+    // var masterControl = soundFolder
+    //   .add(soundcontrols, "master", 0.0, 1.0)
+    //   .onChange(function () {
+    //     listener.setMasterVolume(soundcontrols.master);
+    //   });
     var spectrumControl = soundFolder
         .add(soundcontrols, "spectrum", 1, 300)
         .onChange(function (value) {
         soundcontrols.spectrum = value;
         updateSpectrum(value);
-    });
+    })
+        .listen();
     var brightnessControl = soundFolder
         .add(soundcontrols, "brightness", 0, 255)
         .step(1)
         .onChange(function (value) {
         soundcontrols.brightness = value;
         updateBrightness(value);
-    });
+    })
+        .listen();
     var attackControl = soundFolder
         .add(soundcontrols, "attack", 0.0001, 0.3)
         .onChange(function (value) {
         soundcontrols.attackTime = value;
         attackTime = value;
-    });
+    })
+        .listen();
     var sustainControl = soundFolder
         .add(soundcontrols, "sustain", 0.0001, 0.6)
         .onChange(function (value) {
         soundcontrols.sustainTime = value;
         sustainTime = value;
-    });
+    })
+        .listen();
     var releaseControl = soundFolder
         .add(soundcontrols, "release", 0.0001, 1)
         .onChange(function (value) {
         soundcontrols.releaseTime = value;
         releaseTime = value;
-    });
+    })
+        .listen();
     soundFolder.add(params, "Submit");
     soundFolder.open();
     console.log("gui created");
@@ -965,7 +980,6 @@ function genRand3D() {
     var randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
     params.color = randomColor;
     params.Spherify = Math.random();
-    mesh.morphTargetInfluences[0] = params.Spherify;
     params.Segments = Math.random() * 60;
     params.Twist = Math.random();
     mesh.morphTargetInfluences[1] = params.Twist;
@@ -990,6 +1004,7 @@ function genRandSound() {
 function reset3D() {
     mesh.material.color.set("#FFFFFF");
     params.Spherify = 0;
+    formFolder.updateDisplay;
     mesh.morphTargetInfluences[0] = params.Spherify;
     params.Segments = 25;
     params.Twist = 0;
