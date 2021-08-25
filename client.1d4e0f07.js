@@ -76615,10 +76615,29 @@ function initGUI() {
 function updateGUI(designerType) {
   if (designerType === "3D") {
     formGui.show();
+    formGui.updateDisplay();
+
+    for (var i = 0; i < Object.keys(formGui.__folders).length; i++) {
+      var key = Object.keys(formGui.__folders)[i];
+
+      for (var j = 0; j < formGui.__folders[key].__controllers.length; j++) {
+        formGui.__folders[key].__controllers[j].updateDisplay();
+      }
+    }
+
     soundGui.hide();
   } else if (designerType === "Sound") {
     formGui.hide();
     soundGui.show();
+    soundGui.updateDisplay();
+
+    for (var i = 0; i < Object.keys(soundGui.__folders).length; i++) {
+      var key = Object.keys(soundGui.__folders)[i];
+
+      for (var j = 0; j < soundGui.__folders[key].__controllers.length; j++) {
+        soundGui.__folders[key].__controllers[j].updateDisplay();
+      }
+    }
   } else {
     console.log("Unknown Designer Type for GUI");
   }
@@ -76828,6 +76847,14 @@ var assignSounds = function assignSounds(parameters) {
   soundcontrols.sustainTime = sustainTime;
   releaseTime = parameters[4];
   soundcontrols.releaseTime = releaseTime;
+
+  for (var i = 0; i < Object.keys(formGui.__folders).length; i++) {
+    var key = Object.keys(formGui.__folders)[i];
+
+    for (var j = 0; j < formGui.__folders[key].__controllers.length; j++) {
+      formGui.__folders[key].__controllers[j].updateDisplay();
+    }
+  }
 };
 
 var assign3D = function assign3D(parameters) {
@@ -76842,6 +76869,14 @@ var assign3D = function assign3D(parameters) {
   mesh.scale.set(params.length, params.depth, 1);
   generateGeometry();
   mesh.material.color.set(params.color);
+
+  for (var i = 0; i < Object.keys(soundGui.__folders).length; i++) {
+    var key = Object.keys(soundGui.__folders)[i];
+
+    for (var j = 0; j < soundGui.__folders[key].__controllers.length; j++) {
+      soundGui.__folders[key].__controllers[j].updateDisplay();
+    }
+  }
 };
 
 function genRand3D() {
@@ -76856,6 +76891,14 @@ function genRand3D() {
   mesh.scale.set(params.length, params.depth, 1);
   generateGeometry();
   mesh.material.color.set(params.color);
+
+  for (var i = 0; i < Object.keys(soundGui.__folders).length; i++) {
+    var key = Object.keys(soundGui.__folders)[i];
+
+    for (var j = 0; j < soundGui.__folders[key].__controllers.length; j++) {
+      soundGui.__folders[key].__controllers[j].updateDisplay();
+    }
+  }
 }
 
 function genRandSound() {
@@ -76869,12 +76912,28 @@ function genRandSound() {
   soundcontrols.sustainTime = sustainTime;
   releaseTime = Math.random() * 0.9999 + 0.0001;
   soundcontrols.releaseTime = releaseTime;
+
+  for (var i = 0; i < Object.keys(formGui.__folders).length; i++) {
+    var key = Object.keys(formGui.__folders)[i];
+
+    for (var j = 0; j < formGui.__folders[key].__controllers.length; j++) {
+      formGui.__folders[key].__controllers[j].updateDisplay();
+    }
+  }
 }
 
 function reset3D() {
   mesh.material.color.set("#FFFFFF");
   params.Spherify = 0;
-  formFolder.updateDisplay;
+
+  for (var i = 0; i < Object.keys(formGui.__folders).length; i++) {
+    var key = Object.keys(formGui.__folders)[i];
+
+    for (var j = 0; j < formGui.__folders[key].__controllers.length; j++) {
+      formGui.__folders[key].__controllers[j].updateDisplay();
+    }
+  }
+
   mesh.morphTargetInfluences[0] = params.Spherify;
   params.Segments = 25;
   params.Twist = 0;
@@ -76886,6 +76945,15 @@ function reset3D() {
 function resetSound() {
   updateSpectrum(0);
   updateBrightness(255);
+
+  for (var i = 0; i < Object.keys(soundGui.__folders).length; i++) {
+    var key = Object.keys(soundGui.__folders)[i];
+
+    for (var j = 0; j < soundGui.__folders[key].__controllers.length; j++) {
+      soundGui.__folders[key].__controllers[j].updateDisplay();
+    }
+  }
+
   attackTime = 0.15;
   sustainTime = 0.1;
   releaseTime = 0.3;
@@ -76908,6 +76976,7 @@ function submit() {
   if (procedureStep === "trainingSound1") {
     console.log("traingingsound1 complete");
     genRand3D();
+    updateGUI("Sound");
     resetSound();
     procedureStep = "trainingSound2";
   } else if (procedureStep === "trainingSound2") {
@@ -77471,7 +77540,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59962" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62214" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

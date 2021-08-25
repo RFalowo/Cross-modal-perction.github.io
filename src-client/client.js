@@ -765,11 +765,25 @@ function initGUI() {
 function updateGUI(designerType) {
     if (designerType === "3D") {
         formGui.show();
+        formGui.updateDisplay();
+        for (var i = 0; i < Object.keys(formGui.__folders).length; i++) {
+            var key = Object.keys(formGui.__folders)[i];
+            for (var j = 0; j < formGui.__folders[key].__controllers.length; j++) {
+                formGui.__folders[key].__controllers[j].updateDisplay();
+            }
+        }
         soundGui.hide();
     }
     else if (designerType === "Sound") {
         formGui.hide();
         soundGui.show();
+        soundGui.updateDisplay();
+        for (var i = 0; i < Object.keys(soundGui.__folders).length; i++) {
+            var key = Object.keys(soundGui.__folders)[i];
+            for (var j = 0; j < soundGui.__folders[key].__controllers.length; j++) {
+                soundGui.__folders[key].__controllers[j].updateDisplay();
+            }
+        }
     }
     else {
         console.log("Unknown Designer Type for GUI");
@@ -983,6 +997,12 @@ const assignSounds = (parameters) => {
     soundcontrols.sustainTime = sustainTime;
     releaseTime = parameters[4];
     soundcontrols.releaseTime = releaseTime;
+    for (var i = 0; i < Object.keys(formGui.__folders).length; i++) {
+        var key = Object.keys(formGui.__folders)[i];
+        for (var j = 0; j < formGui.__folders[key].__controllers.length; j++) {
+            formGui.__folders[key].__controllers[j].updateDisplay();
+        }
+    }
 };
 const assign3D = (parameters) => {
     params.color = parameters[0];
@@ -996,6 +1016,12 @@ const assign3D = (parameters) => {
     mesh.scale.set(params.length, params.depth, 1);
     generateGeometry();
     mesh.material.color.set(params.color);
+    for (var i = 0; i < Object.keys(soundGui.__folders).length; i++) {
+        var key = Object.keys(soundGui.__folders)[i];
+        for (var j = 0; j < soundGui.__folders[key].__controllers.length; j++) {
+            soundGui.__folders[key].__controllers[j].updateDisplay();
+        }
+    }
 };
 function genRand3D() {
     var randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
@@ -1009,6 +1035,12 @@ function genRand3D() {
     mesh.scale.set(params.length, params.depth, 1);
     generateGeometry();
     mesh.material.color.set(params.color);
+    for (var i = 0; i < Object.keys(soundGui.__folders).length; i++) {
+        var key = Object.keys(soundGui.__folders)[i];
+        for (var j = 0; j < soundGui.__folders[key].__controllers.length; j++) {
+            soundGui.__folders[key].__controllers[j].updateDisplay();
+        }
+    }
 }
 function genRandSound() {
     soundcontrols.spectrum = Math.random() * 300;
@@ -1021,11 +1053,22 @@ function genRandSound() {
     soundcontrols.sustainTime = sustainTime;
     releaseTime = Math.random() * 0.9999 + 0.0001;
     soundcontrols.releaseTime = releaseTime;
+    for (var i = 0; i < Object.keys(formGui.__folders).length; i++) {
+        var key = Object.keys(formGui.__folders)[i];
+        for (var j = 0; j < formGui.__folders[key].__controllers.length; j++) {
+            formGui.__folders[key].__controllers[j].updateDisplay();
+        }
+    }
 }
 function reset3D() {
     mesh.material.color.set("#FFFFFF");
     params.Spherify = 0;
-    formFolder.updateDisplay;
+    for (var i = 0; i < Object.keys(formGui.__folders).length; i++) {
+        var key = Object.keys(formGui.__folders)[i];
+        for (var j = 0; j < formGui.__folders[key].__controllers.length; j++) {
+            formGui.__folders[key].__controllers[j].updateDisplay();
+        }
+    }
     mesh.morphTargetInfluences[0] = params.Spherify;
     params.Segments = 25;
     params.Twist = 0;
@@ -1036,6 +1079,12 @@ function reset3D() {
 function resetSound() {
     updateSpectrum(0);
     updateBrightness(255);
+    for (var i = 0; i < Object.keys(soundGui.__folders).length; i++) {
+        var key = Object.keys(soundGui.__folders)[i];
+        for (var j = 0; j < soundGui.__folders[key].__controllers.length; j++) {
+            soundGui.__folders[key].__controllers[j].updateDisplay();
+        }
+    }
     attackTime = 0.15;
     sustainTime = 0.1;
     releaseTime = 0.3;
