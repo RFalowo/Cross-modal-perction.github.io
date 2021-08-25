@@ -130,6 +130,9 @@ if (localStorage.getItem("Player") !== null) {
 var emailObj = {
     Email: "",
 };
+var feedbackObj = {
+    Feedback: "",
+};
 // pop up box for info and consent
 const openModalButtons = document.querySelectorAll("[data-welcome-target]");
 const closeModalButtons = document.querySelectorAll("[data-close-button]");
@@ -154,6 +157,7 @@ const participantinfo1NextButton = document.querySelectorAll("[next-participant-
 const participantinfo2NextButton = document.querySelectorAll("[next-participant-info-2-button]");
 const headphoneTestNextButton = document.querySelectorAll("[next-headphone-test]");
 const prizedrawNextButton = document.querySelectorAll("[next-prize-draw]");
+const feedbackNextButton = document.querySelectorAll("[next-feedback]");
 const overlay = document.getElementById("overlay"); // change this for each overlay
 let usingHeadphones;
 const userCode = userState.userID; // change to userState.id
@@ -526,6 +530,15 @@ prizedrawNextButton.forEach((button) => {
         // TODO add server communication and database handling for user email
     });
 });
+feedbackNextButton.forEach((button) => {
+    button.addEventListener("click", () => {
+        const extratrials = document.querySelector(".extratrials");
+        const feedback = (document.getElementById("Feedback-input")).value;
+        feedbackObj.Feedback = feedback;
+        updateFeedbacklDB(feedbackObj);
+        closeModal(extratrials);
+    });
+});
 overlay.addEventListener("click", () => {
     const welcomes = document.querySelectorAll(".welcome.active");
     welcomes.forEach((welcome) => {
@@ -584,6 +597,14 @@ const updateEmailDB = (email) => {
         data: email,
     };
     socket.sendMessage(message3);
+};
+const updateFeedbacklDB = (feedback) => {
+    console.log("feedbcak submitted");
+    const message4 = {
+        type: "FeedbackSubmit",
+        data: feedback,
+    };
+    socket.sendMessage(message4);
 };
 // mongoose/mongodb init
 //ongoose.connect("mongodb+srv://Remi:TJQvAr9SnEDGU2D@cluster0.43i0s.mongodb.net/Thesis?retryWrites=true&w=majority")

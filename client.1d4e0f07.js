@@ -76013,6 +76013,9 @@ if (localStorage.getItem("Player") !== null) {
 
 var emailObj = {
   Email: ""
+};
+var feedbackObj = {
+  Feedback: ""
 }; // pop up box for info and consent
 
 var openModalButtons = document.querySelectorAll("[data-welcome-target]");
@@ -76038,6 +76041,7 @@ var participantinfo1NextButton = document.querySelectorAll("[next-participant-in
 var participantinfo2NextButton = document.querySelectorAll("[next-participant-info-2-button]");
 var headphoneTestNextButton = document.querySelectorAll("[next-headphone-test]");
 var prizedrawNextButton = document.querySelectorAll("[next-prize-draw]");
+var feedbackNextButton = document.querySelectorAll("[next-feedback]");
 var overlay = document.getElementById("overlay"); // change this for each overlay
 
 var usingHeadphones;
@@ -76409,6 +76413,15 @@ prizedrawNextButton.forEach(function (button) {
     openModal(extratrials); // TODO add server communication and database handling for user email
   });
 });
+feedbackNextButton.forEach(function (button) {
+  button.addEventListener("click", function () {
+    var extratrials = document.querySelector(".extratrials");
+    var feedback = document.getElementById("Feedback-input").value;
+    feedbackObj.Feedback = feedback;
+    updateFeedbacklDB(feedbackObj);
+    closeModal(extratrials);
+  });
+});
 overlay.addEventListener("click", function () {
   var welcomes = document.querySelectorAll(".welcome.active");
   welcomes.forEach(function (welcome) {
@@ -76469,6 +76482,15 @@ var updateEmailDB = function updateEmailDB(email) {
     data: email
   };
   socket.sendMessage(message3);
+};
+
+var updateFeedbacklDB = function updateFeedbacklDB(feedback) {
+  console.log("feedbcak submitted");
+  var message4 = {
+    type: "FeedbackSubmit",
+    data: feedback
+  };
+  socket.sendMessage(message4);
 }; // mongoose/mongodb init
 //ongoose.connect("mongodb+srv://Remi:TJQvAr9SnEDGU2D@cluster0.43i0s.mongodb.net/Thesis?retryWrites=true&w=majority")
 // three.js and webaudio
@@ -77449,7 +77471,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51249" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59962" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
